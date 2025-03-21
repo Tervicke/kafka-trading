@@ -14,7 +14,7 @@ def aftersend(err,send):
         return
     print("Message sent")
 
-topic="test-topic"
+topic="usdt-sol-prices"
 
 #producer.produce(topic, json_data ,callback=aftersend)
 
@@ -28,7 +28,7 @@ def on_message(ws, message):
         if(price != last_updated_price):
             print("Price changed!")
             last_updated_price = price
-            producer.produce(topic , last_updated_price , callback=aftersend)
+            producer.produce(topic , key=b"binance" , value=last_updated_price , callback=aftersend)
             producer.flush()
     except:
         print(price)
@@ -47,8 +47,6 @@ def on_open(ws):
         "id": 1
     }
     ws.send(json.dumps(subscribe_message))
-
-
 
 
 if __name__ == "__main__":
