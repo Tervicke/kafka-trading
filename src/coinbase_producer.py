@@ -33,7 +33,7 @@ def on_message(ws, message):
                 print("Price changed:", price)
                 last_updated_price = price
                 print(last_updated_price);
-                producer.produce(topic, key=b"coinbase-usdt-prices-123", value=price, callback=aftersend,partion=1)
+                producer.produce(topic, key=b"coinbase-usdt-prices-123", value=price, callback=aftersend,partition=1)
                 producer.flush()
         except Exception as e:
             print("Error processing price:", price, "\nException:", e)
