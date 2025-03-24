@@ -1,3 +1,4 @@
+#gets the data from the binance api and puts it in the partion 0 
 from confluent_kafka import Producer
 import json
 import websocket
@@ -28,7 +29,7 @@ def on_message(ws, message):
         if(price != last_updated_price):
             print("Price changed!")
             last_updated_price = price
-            producer.produce(topic , key=b"binance" , value=last_updated_price , callback=aftersend)
+            producer.produce(topic , key=b"122-usdt-sol-prices-binance" , value=last_updated_price , callback=aftersend)
             producer.flush()
     except:
         print(price)
@@ -51,6 +52,6 @@ def on_open(ws):
 
 if __name__ == "__main__":
     ws_url = "wss://stream.binance.com:9443/ws/solusdt@trade"
-    ws = websocket.WebSocketApp(ws_url, on_message=on_message, on_error=on_error, on_close=on_close)
+    ws = websocket.WebSocketApp(ws_url, on_message=on_message, on_error=on_error, on_close=on_close,partition=0) 
     ws.on_open = on_open
     ws.run_forever()
